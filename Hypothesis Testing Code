@@ -1,0 +1,26 @@
+>>> import pandas as pd
+>>> from scipy.stats import f_oneway
+>>> file_path = 'C:/Users/rosek/Desktop/Satellite Positioning.csv'
+>>> df = pd.read_csv(file_path)
+>>> period_a_data = df[df['period'] == 'train_a']
+>>> period_b_data = df[df['period'] == 'train_b']
+>>> gse_columns = ['gse_x_ace', 'gse_y_ace', 'gse_z_ace']
+>>> results = {}
+>>> for col in gse_columns:
+...     f_statistic, p_value = f_oneway(period_a_data[col].dropna(), period_b_data[col].dropna())
+...     results[col] = {'F-statistic': f_statistic, 'p-value': p_value}
+...
+>>> for col, result in results.items():
+...     print(f"Column: {col}")
+...     print(f"  F-statistic: {result['F-statistic']}")
+...     print(f"  p-value: {result['p-value']}")
+...
+Column: gse_x_ace
+  F-statistic: 1.468416317243508
+  p-value: 0.22568018465993825
+Column: gse_y_ace
+  F-statistic: 0.8944623249775238
+  p-value: 0.3443383222214813
+Column: gse_z_ace
+  F-statistic: 0.7654077253164373
+  p-value: 0.3817034470841201
